@@ -1,0 +1,21 @@
+</div> <!--End content-wrap-->
+
+<footer>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        
+        <% if (user === null) { %>
+            <li>|</li>
+            <li><a href="/user/login">Log-in</a></li>
+            <li><a href="/user/register">Create Account</a></li>
+        <% } else { %>
+            <li><a href="/characters">My Characters</a></li>
+            <li><a href="/characters/create">New Character</a></li>
+            <li>|</li>
+            <li><a href="/user">My Account</a></li>
+        <% } %>
+    </ul>
+</footer>
+
+</div> <!--End page-container-->
