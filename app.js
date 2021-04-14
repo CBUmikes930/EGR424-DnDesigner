@@ -68,7 +68,12 @@ characterRouter.route('/create').get((req, res) => {
     if (req.session.user) {
         user = req.session.user;
 
-        res.render('index', { title: 'New Character', user: user, static: ".." });
+        characterService.getRaces()
+            .then(races => {
+                console.log(races);
+                res.render('edit_character', { title: 'New Character', user: user, races: races, static: ".." });
+            })
+            .catch(err => console.log(err));
     } else {
         //Otherwise, if the user hasn't logged in, then send them to login page
         res.redirect('/user/login');

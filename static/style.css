@@ -114,3 +114,110 @@ h3{
 #error {
     color: #ca0000;
 }
+#character_name_label {
+    text-align: center;
+}
+#character_name {
+    display: block;
+    width: 80%;
+    margin: auto;
+    padding: 10px 25px;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: #ddd;
+    background-image: linear-gradient(30deg, #555, #333, #555);
+}
+
+.race {
+    margin: 50px 0px;
+    padding: 25px;
+    background-image: linear-gradient(30deg, #400000, #600000, #400000);
+    border: 2px solid #ddd;
+}
+
+.race h1 {
+    text-align: center;
+    width: 100%;
+    border-bottom: 2px solid #ddd;
+    margin-top: 0px;
+    padding-bottom: 25px;
+}
+
+.race p {
+    text-align: center;
+}
+
+.race h2 {
+    margin: 25px;
+    text-decoration: underline;
+}
+
+.race h3 {
+    padding-left: 50px;
+}
+
+.race h4 {
+    padding-left: 75px;
+}
+
+.race ul {
+    padding-left: 75px;
+}
+
+.race ul li {
+    padding: 5px 0px;
+}
+
+.race table {
+    width: 80%;
+    margin: auto;
+    border: 3px solid #ddd;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.race table tr, .race table th, .race table td {
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.race table th {
+    border: 3px solid #ddd;
+    font-size: 120%;
+}
+
+.flex-parent {
+    display: flex;
+}
+
+.flex-child {
+    width: 50%;
+    flex: 1;
+}
+
+.subrace h4 {
+    margin: 0;
+}
+
+.subrace ul {
+    padding-left: 120px;
+}
+
+.hidden {
+    display: none;
+}
+
+.race .h1_button {
+    width: 60%;
+    margin: auto;
+    padding: 15px;
+    background-color: #ca0000;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.race .h1_button:hover {
+    background-color: #e00000;
+    text-decoration: underline;
+}

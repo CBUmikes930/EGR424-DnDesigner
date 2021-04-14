@@ -1,0 +1,117 @@
+<div class="race" onclick="toggleDropdown('race_<%= cur_race.race_name %>')">
+    <h1><%= cur_race.race_name %></h1>
+
+    <div id="race_<%= cur_race.race_name %>" class="hidden">
+        <p><strong>Size:</strong> <%= cur_race.size %></p>
+        <p><strong>Speed:</strong> <%= cur_race.speed %> ft.</p>
+        
+        <div class="flex-parent">
+            <div class="flex-child">
+                <h2>Ability Score Improvements:</h2>
+                <ul>
+                    <% cur_race.abilityScoreBonus.forEach((ability) => { %>
+                        <% let cur_key = Object.keys(ability) %>
+                        <% let cur_val = ability[cur_key] %>
+                        <li><strong><%= cur_key %>:</strong> 
+                        <%= ((cur_val > 0) ? "+" : "") + cur_val %></li>
+                    <% }) %>
+                </ul>
+            </div>
+            
+            <div class="flex-child">
+                <h2>Languages:</h2>
+                <ul>
+                    <% cur_race.languages.forEach((language) => { %>
+                        <li><%= language %></li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+        
+        
+        <% if (cur_race.traits.length > 0) { %>
+            <h2>Traits:</h2>
+            <ul>
+                <% cur_race.traits.forEach((trait) => { %>
+                    <% let cur_key = Object.keys(trait) %>
+                    <li><strong><%= cur_key[0] %>:</strong>
+                    <%= trait[cur_key[0]] %></li>
+                    
+                    <% if (cur_key.length > 1) { %>
+                        <table>
+                            <tr>
+                                <% Object.keys(trait[cur_key[1]][0]).forEach((col) => { %>
+                                    <th><%= col %></th>
+                                <% }) %>
+                            </tr>
+                            <% trait[cur_key[1]].forEach(obj => { %>
+                                <tr>
+                                <% Object.values(obj).forEach((col) => { %>
+                                    <td><%= col %></td>
+                                <% }) %>
+                                </tr>
+                            <% }) %>
+                        </table>
+                    <% } %>
+                <% }) %>
+            </ul>
+        <% } %>
+        
+        <% if (cur_race.subraces.length > 0) { %>
+            <h2>Sub-Races:</h2>
+            <div class="subraces">
+                <% cur_race.subraces.forEach((subraceObj) => { %>
+                    <hr>
+                    <div class="subrace">
+                        <% let subrace_name = Object.keys(subraceObj)[0] %>
+                        <% let subrace = subraceObj[subrace_name] %>
+                        <h3><%= subrace_name %>:</h3>
+        
+                        <h4>Ability Score Improvements:</h2>
+                        <ul>
+                            <% subrace.abilityScoreBonus.forEach((ability) => { %>
+                                <% let cur_key = Object.keys(ability) %>
+                                <% let cur_val = ability[cur_key] %>
+                                <li><strong><%= cur_key %>:</strong> 
+                                <%= ((cur_val > 0) ? "+" : "") + cur_val %></li>
+                            <% }) %>
+                        </ul>
+        
+                        <h4>Traits:</h4>
+                        <ul>
+                            <% subrace.traits.forEach((trait) => { %>
+                                <% let cur_key = Object.keys(trait) %>
+                                <li><strong><%= cur_key[0] %>:</strong>
+                                <%= trait[cur_key[0]] %></li>
+                                
+                                <% if (cur_key.length > 1) { %>
+                                    <table>
+                                        <tr>
+                                            <% Object.keys(trait[cur_key[1]][0]).forEach((col) => { %>
+                                                <th><%= col %></th>
+                                            <% }) %>
+                                        </tr>
+                                        <% trait[cur_key[1]].forEach(obj => { %>
+                                            <tr>
+                                            <% Object.values(obj).forEach((col) => { %>
+                                                <td><%= col %></td>
+                                            <% }) %>
+                                            </tr>
+                                        <% }) %>
+                                    </table>
+                                <% } %>
+                            <% }) %>
+                        </ul>
+                        <br><br>
+                        <h1 class="h1_button" onclick="selectRace('<%= cur_race._id %>', '<%= subrace_name %>')">Select Sub-Race</h1>
+                    </div>
+                    <br>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <h1 class="h1_button" onclick="selectRace('<%= cur_race._id %>')">Select Race</h1>
+        <% } %>
+        
+        <br><br>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body>
+    <%- include("./partials/nav.ejs") %>
+
+    <h1 id="character_name_label">Enter Character Name:</h1>
+    <input type="text" id="character_name">
+    <br><br><hr><br>
+
+    <div id="races">
+        <h1>Step 1: Choose a Race</h1>
+        <% for (let i = 0; i < races.length; i++) { %>
+            <%- include("./partials/race.ejs", {cur_race: races[i]}) %>
+        <% } %>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+</body>
+</html>
