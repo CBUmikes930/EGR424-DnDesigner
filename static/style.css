@@ -129,47 +129,46 @@ h3{
     background-image: linear-gradient(30deg, #555, #333, #555);
 }
 
-.race {
+.race, .class {
     margin: 50px 0px;
-    padding: 25px;
+    padding: 0;
     background-image: linear-gradient(30deg, #400000, #600000, #400000);
     border: 2px solid #ddd;
 }
 
-.race h1 {
+.race h1, .class h1 {
     text-align: center;
     width: 100%;
-    border-bottom: 2px solid #ddd;
-    margin-top: 0px;
-    padding-bottom: 25px;
+    margin: 0px;
+    padding: 25px 0;
 }
 
-.race p {
+.race p, .class p {
     text-align: center;
 }
 
-.race h2 {
+.race h2, .class h2 {
     margin: 25px;
     text-decoration: underline;
 }
 
-.race h3 {
+.race h3, .class h3 {
     padding-left: 50px;
 }
 
-.race h4 {
+.race h4, .class h4 {
     padding-left: 75px;
 }
 
-.race ul {
+.race ul, .class ul {
     padding-left: 75px;
 }
 
-.race ul li {
+.race ul li, .class ul li {
     padding: 5px 0px;
 }
 
-.race table {
+.race table, .class table {
     width: 80%;
     margin: auto;
     border: 3px solid #ddd;
@@ -177,14 +176,23 @@ h3{
     margin-bottom: 15px;
 }
 
-.race table tr, .race table th, .race table td {
+.race table tr, .race table th, .race table td,
+    .class table tr, .class table th, .class table td {
     border: 1px solid #ddd;
     text-align: center;
 }
 
-.race table th {
+.race table th, .class table th {
     border: 3px solid #ddd;
     font-size: 120%;
+}
+
+.class table td a {
+    color: #ddd;
+}
+
+.class table td a:hover {
+    color: #aaa;
 }
 
 .flex-parent {
@@ -208,7 +216,7 @@ h3{
     display: none;
 }
 
-.race .h1_button {
+.race .h1_button, .class .h1_button {
     width: 60%;
     margin: auto;
     padding: 15px;
@@ -217,7 +225,32 @@ h3{
     border-radius: 10px;
 }
 
-.race .h1_button:hover {
+.race .h1_button:hover, .class .h1_button:hover {
     background-color: #e00000;
     text-decoration: underline;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted #ddd;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 400px;
+    background-image: linear-gradient(30deg, #222, #333, #222);
+    border: 1px solid #ddd;
+    color: #ddd;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    top: -5 px;
+    left: 110%;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }

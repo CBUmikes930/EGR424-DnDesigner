@@ -1,0 +1,82 @@
+<div class="class">
+    <h1 onclick="toggleDropdown('class_<%= cur_class.class_name %>')"><%= cur_class.class_name %></h1>
+
+    <div id="class_<%= cur_class.class_name %>" class="hidden">
+        <hr><br>
+        <p><strong>Hit Dice:</strong> 1d<%= cur_class.hit_dice %> per <%= cur_class.class_name %> level</p>
+        <p><strong>Hit Points at 1st level:</strong> <%= cur_class.hit_dice %> + your Constitution modifier</p>
+        <p><strong>Hit Points at Higher Levels:</strong> 1d<%= cur_class.hit_dice %> (or <%= cur_class.hit_dice / 2 + 1 %>) + your Constitution modifier per <%= cur_class.class_name %> level after 1st</p>
+
+        <br><br>
+        <table>
+            <tr>
+                <% Object.keys(cur_class.table[0]).forEach((col) => { %>
+                    <th><%= col %></th>
+                <% }) %>
+            </tr>
+            <% cur_class.table.forEach((row) => { %>
+                <tr>
+                    <% Object.values(row).forEach((col) => { %>
+                        <td>
+                            <% if (col instanceof Array) { %>
+                                <% col.forEach((listItem) => { %>
+                                    <a href="#<%= cur_class.class_name %>_<%= listItem %>"><%= listItem %></a><br>
+                                <% }) %>
+                            <% } else { %>
+                                <%= col %>
+                            <% } %>
+                        </td>
+                    <% }) %>
+                </tr>
+            <% }) %>
+        </table>
+        <br><br>
+
+        <h2>Proficiencies:</h2>
+        <table>
+            <% cur_class.proficiencies.forEach((row) => { %>
+                <% let cur_key = Object.keys(row)[0] %>
+                <tr>
+                    <th><%= cur_key %></th>
+                    <td>
+                        <ul>
+                            <% row[cur_key].forEach((proficiency) => { %>
+                                <li><%= proficiency %></li>
+                            <% }) %>
+                        </ul>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+
+        <h2>Equipment:</h2>
+        <h3>You start with the following equipment, in addition to the equipment granted by your background:</h3>
+        <ul>
+            <% cur_class.equipment.forEach((options) => { %>
+                <li>
+                    <% let keys = Object.keys(options) %>
+                    <% for (let i = 0; i < keys.length; i++) { %>
+                            <% if (options[keys[i]] != "") { %>
+                                <div class="tooltip"><%= keys[i] %>
+                                    <span class="tooltiptext"><%= options[keys[i]] %></span>
+                                </div>
+                            <% } else { %>
+                                <%= keys[i] %>
+                            <% } %>
+                        <%= (i < keys.length - 1) ? "or" : "" %>
+                    <% } %>
+                </li>
+            <% }) %>
+        </ul>
+
+        <h2>Features:</h2>
+        <ul>
+            <% cur_class.features.forEach((feature) => { %>
+                <% let cur_key = Object.keys(feature) %>
+                <li id="<%= cur_class.class_name %>_<%= cur_key[0] %>"><strong><%= cur_key[0] %>:</strong><%- feature[cur_key[0]] %></li>
+            <% }) %>
+        </ul>
+
+        <br><br>
+    </div>
+</div>

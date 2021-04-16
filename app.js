@@ -41,46 +41,37 @@ app.get('/about', (req, res) => {
 // Character Routes
 app.use('/characters', characterRouter);
 
-characterRouter.route('/').get((req, res) => {
+characterRouter.route('/').get(async (req, res) => {
     //If the user is signed in
     if (req.session.user) {
         user = req.session.user;
 
-        //Get a list of character IDs from the user
-        usersService.getCharactersByUser(user)
-            .then(characterIds => {
-                //Use those character IDs to get the character data
-                characterService.getCharacters(characterIds)
-                    .then(characters => {
-                        //Send that to the page
-                        res.render('character_list', { title: 'My Characters', user: user, characters: characters, static: "." });
-                    });
-            })
-            .catch(err => console.log(err));
+        //Get a list of character Ids registered to the user
+        let characterIds = await usersService.getCharactersByUser(user);
+        //Get a list of characters by the list of ids
+        let characters = await characterService.getCharacters(characterIds);
+        res.render('character_list', { title: 'My Characters', user: user, characters: characters, static: "." });
     } else {
         //Otherwise, if the user hasn't logged in, then send them to login page
         res.redirect('/user/login');
     }
 });
 
-characterRouter.route('/create').get((req, res) => {
+characterRouter.route('/create').get(async (req, res) => {
     //If user has signed in
     if (req.session.user) {
         user = req.session.user;
 
-        characterService.getRaces()
-            .then(races => {
-                console.log(races);
-                res.render('edit_character', { title: 'New Character', user: user, races: races, static: ".." });
-            })
-            .catch(err => console.log(err));
+        let races = await characterService.getRaces();
+        let classes = await characterService.getClasses();
+        res.render('edit_character', { title: 'New Character', user: user, races: races, classes: classes, static: ".." });
     } else {
         //Otherwise, if the user hasn't logged in, then send them to login page
         res.redirect('/user/login');
     }
 });
 
-characterRouter.route('/:characterId').get((req, res) => {
+characterRouter.route('/:characterId').get(async (req, res) => {
     //If user has signed in
     if (req.session.user) {
         user = req.session.user;
@@ -107,21 +98,18 @@ userRouter.route('/login').get((req, res) => {
         user = null;
         res.render('login', { title: 'Log-in', user: user, error: '', static: ".." });
     }
-}).post((req, res) => {
+}).post(async (req, res) => {
     var body = req.body;
 
-    usersService.login({ 'username': body.username, 'password': body.password })
-        .then(result => {
-            if (!result) {
-                console.log("No user found");
-                res.render('login', { title: 'Log-in', user: user, error: 'Incorrect username or password.', static: ".." });
-            } else {
-                user = body.username;
-                req.session.user = body.username;
-                res.redirect('/');
-            }
-        })
-        .catch(err => console.log(err));
+    let result = await usersService.login({'username': body.username, 'password': body.password});
+    if (!result) {
+        console.log("No user found");
+        res.render('login', { title: 'Log-in', user: user, error: 'Incorrect username or password.', static: ".." });
+    } else {
+        user = body.username;
+        req.session.user = body.username;
+        res.redirect('/');
+    }
 });
 
 userRouter.route('/register').get((req, res) => {
@@ -135,28 +123,20 @@ userRouter.route('/register').get((req, res) => {
         //Otherwise, generate the register page
         res.render('register', { title: 'Register', user: user, error: '', static: ".." });
     }
-}).post((req, res) => {
+}).post(async (req, res) => {
     var body = req.body;
 
     if (body.password != body.password_2) {
         res.render('register', { title: 'Register', user: null, error: 'The passwords do not match', static: ".." });
     } else {
-        usersService.findUsers({ 'username': body.username })
-        .then(result => {
-            if (result[0] == null) {
-                usersService.register(body.username, body.password)
-                    .then(result => {
-                        req.session.user = body.username;
-                        res.redirect('/');
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.render('register', { title: 'Register', user: null, error: 'An unexpected error occurred', static: ".." });
-                    })
-            } else {
-                res.render('register', { title: 'Register', user: null, error: 'The username already exists', static: ".." });
-            }
-        });
+        let result = await usersService.findUsers({'username': body.username});
+        if (result[0] == null) {
+            await usersService.register(body.username, body.password);
+            req.session.user = body.username;
+            res.redirect('/');
+        } else {
+            res.render('register', { title: 'Register', user: null, error: 'The username already exists', static: ".." });
+        }
     }
 });
 

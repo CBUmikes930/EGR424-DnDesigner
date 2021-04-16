@@ -10,9 +10,16 @@
 
     <div id="races">
         <h1>Step 1: Choose a Race</h1>
-        <% for (let i = 0; i < races.length; i++) { %>
-            <%- include("./partials/race.ejs", {cur_race: races[i]}) %>
-        <% } %>
+        <% races.forEach((cur_race) => { %>
+            <%- include("./partials/race.ejs", {cur_race: cur_race}) %>
+        <% }) %>
+    </div>
+
+    <div id="classes">
+        <h1>Step 2: Choose a Class</h1>
+        <% classes.forEach((cur_class) => { %>
+            <%- include("./partials/class.ejs", {cur_class: cur_class}) %>
+        <% }) %>
     </div>
 
     <%- include("./partials/footer.ejs") %>

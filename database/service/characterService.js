@@ -1,5 +1,6 @@
 const Character = require('../models/characterModel');
 const Race = require('../models/raceModel');
+const Class = require('../models/classModel');
 
 module.exports.createCharacter = async (content) => {
     try {
@@ -46,6 +47,17 @@ module.exports.getRaces = async (filter) => {
         return result;
     } catch (error) {
         console.log("Something went wrong with getRaces", error);
+        throw new Error(error);
+    }
+}
+
+module.exports.getClasses = async (filter) => {
+    try {
+        let result = await Class.find(filter);
+
+        return result;
+    } catch (error) {
+        console.log("Something went wrong with getClasses", error);
         throw new Error(error);
     }
 }

@@ -1,7 +1,8 @@
-<div class="race" onclick="toggleDropdown('race_<%= cur_race.race_name %>')">
-    <h1><%= cur_race.race_name %></h1>
+<div class="race">
+    <h1 onclick="toggleDropdown('race_<%= cur_race.race_name %>')"><%= cur_race.race_name %></h1>
 
     <div id="race_<%= cur_race.race_name %>" class="hidden">
+        <hr><br>
         <p><strong>Size:</strong> <%= cur_race.size %></p>
         <p><strong>Speed:</strong> <%= cur_race.speed %> ft.</p>
         
@@ -109,6 +110,7 @@
                 <% }) %>
             </div>
         <% } else { %>
+            <br><br>
             <h1 class="h1_button" onclick="selectRace('<%= cur_race._id %>')">Select Race</h1>
         <% } %>
         

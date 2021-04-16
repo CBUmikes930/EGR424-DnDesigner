@@ -23,3 +23,7 @@ function selectRace(race_id, subrace_name) {
     document.getElementById("content-wrap").innerHTML += "<p>" + result + "</p>";
     document.getElementById("character_name").value = name;
 }
+
+function loadTooltip(link) {
+    return "Tooltip: " + link;
+}
