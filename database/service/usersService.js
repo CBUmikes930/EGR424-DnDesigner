@@ -34,18 +34,7 @@ module.exports.register = async (username, password) => {
 
 module.exports.addCharacterToUser = async (username, characterId) => {
     try {
-        let user = await User.find({ 'username': username });
-        
-        User.findByIdAndUpdate(
-            user._id,
-            {$push: {"characters": characterId}},
-            {safe:true, upsert:true},
-            function(err, model) {
-                console.log(err);
-            }
-        );
-
-        return await User.findOneAndUpdate(
+        await User.findOneAndUpdate(
             { 'username': username }, 
             {$push: {"characters": characterId}});
     } catch (error) {
