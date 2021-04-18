@@ -5,7 +5,19 @@
     <%- include("./partials/nav.ejs") %>
 
     <h1 id="character_name_label">Enter Character Name:</h1>
-    <input type="text" id="character_name">
+    <form method="POST">
+        <input type="text" name="name" id="character_name">
+    
+        <div id="confirmations" class="hidden">
+            <br><br>
+            <label for="race">Race:</label><input name="race" value="" id="raceInput"><br><br>
+            <label for="subrace">Subrace:</label><input name="subrace" value="" id="subraceInput"><br><br>
+            <label for="class">Class:</label><input name="class" value="" id="classInput"><br><br>
+            <label for="subclass">Subclass:</label><input name="subclass" value="" id="subclassInput"><br><br>
+            <label for="background">Background:</label><input name="background" value="" id="backgroundInput">
+            <input type="submit" value="Create Character">
+        </div>
+    </form>
     <br><br><hr><br>
 
     <div id="races">
@@ -15,10 +27,17 @@
         <% }) %>
     </div>
 
-    <div id="classes">
+    <div id="classes" class="hidden">
         <h1>Step 2: Choose a Class</h1>
         <% classes.forEach((cur_class) => { %>
             <%- include("./partials/class.ejs", {cur_class: cur_class}) %>
+        <% }) %>
+    </div>
+
+    <div id="backgrounds" class="hidden">
+        <h1>Step 3: Choose a Background</h1>
+        <% backgrounds.forEach((cur_background) => { %>
+            <%- include("./partials/background.ejs", {cur_background: cur_background}) %>
         <% }) %>
     </div>
 

@@ -35,9 +35,19 @@ module.exports.register = async (username, password) => {
 module.exports.addCharacterToUser = async (username, characterId) => {
     try {
         let user = await User.find({ 'username': username });
+        
+        User.findByIdAndUpdate(
+            user._id,
+            {$push: {"characters": characterId}},
+            {safe:true, upsert:true},
+            function(err, model) {
+                console.log(err);
+            }
+        );
 
-        user.characters.push(characterId);
-        return await user.save();
+        return await User.findOneAndUpdate(
+            { 'username': username }, 
+            {$push: {"characters": characterId}});
     } catch (error) {
         console.log("Something went wrong with addCharacterToUser", error);
         throw new Error(error);

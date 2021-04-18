@@ -70,10 +70,47 @@
         </ul>
 
         <h2>Features:</h2>
+        <%= (cur_class.features.length == 0) ? "Features to come..." : "" %>
         <ul>
             <% cur_class.features.forEach((feature) => { %>
-                <% let cur_key = Object.keys(feature) %>
-                <li id="<%= cur_class.class_name %>_<%= cur_key[0] %>"><strong><%= cur_key[0] %>:</strong><%- feature[cur_key[0]] %></li>
+                <% let cur_keys = Object.keys(feature) %>
+                <li id="<%= cur_class.class_name %>_<%= cur_keys[0] %>">
+                    <strong><%= cur_keys[0] %>:</strong>
+                    <%- feature[cur_keys[0]] %>
+                </li>
+                <% if ("Subclasses" in feature) { %>
+                    <br>
+                    <div class="subclasses tabcontainer">
+                        <div class="tab">
+                            <% for (let i = 0; i < feature.Subclasses.length; i++) { %>
+                                <% let subclassObj = feature.Subclasses[i] %>
+                                <button class="tablinks <%= cur_class.class_name %><%= (i == 0) ? " activeTab" : "" %>" onclick="showTab(event, '<%= cur_class.class_name %>', '<%= Object.keys(subclassObj)[0] %>')"><%= Object.keys(subclassObj)[0] %></button>
+                            <% } %>
+                        </div>
+                        <% feature.Subclasses.forEach((subclassObj) => { %>
+                            <% let subclass_name = Object.keys(subclassObj)[0] %>
+                            <% let subclass = subclassObj[subclass_name] %>
+                            <div id="<%= subclass_name %>" class="subclass tabcontent <%= cur_class.class_name %>">
+                                <br>
+                                <p><%- subclass.desc %></p>
+                                <%= (subclass.desc == 0) ? "Features to come..." : "" %>
+                                <h3>Features:</h3>
+                                <ul>
+                                    <% subclass.features.forEach((subclass_feature) => { %>
+                                        <% let cur_keys = Object.keys(subclass_feature) %>
+                                        <li id="<%= cur_class.class_name %>_<%= cur_keys[0] %>">
+                                            <strong><%= cur_keys[0] %>:</strong>
+                                            <%- subclass_feature[cur_keys[0]]; %>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                                <br><br>
+                                <h1 class="h1_button" onclick="selectClass('<%= cur_class.class_name %>', '<%= subclass_name %>')">Select Sub-Class</h1>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <br>
+                <% } %>
             <% }) %>
         </ul>
 

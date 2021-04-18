@@ -60,15 +60,18 @@
         
         <% if (cur_race.subraces.length > 0) { %>
             <h2>Sub-Races:</h2>
-            <div class="subraces">
+            <div class="subraces tabcontainer">
+                <div class="tab">
+                    <% for (let i = 0; i < cur_race.subraces.length; i++) { %>
+                        <% let subraceObj = cur_race.subraces[i] %>
+                        <button class="tablinks <%= cur_race.race_name %><%= (i == 0) ? " activeTab" : "" %>" onclick="showTab(event, '<%= cur_race.race_name %>', '<%= Object.keys(subraceObj)[0] %>')"><%= Object.keys(subraceObj)[0] %></button>
+                    <% } %>
+                </div>
                 <% cur_race.subraces.forEach((subraceObj) => { %>
-                    <hr>
-                    <div class="subrace">
-                        <% let subrace_name = Object.keys(subraceObj)[0] %>
-                        <% let subrace = subraceObj[subrace_name] %>
-                        <h3><%= subrace_name %>:</h3>
-        
-                        <h4>Ability Score Improvements:</h2>
+                    <% let subrace_name = Object.keys(subraceObj)[0] %>
+                    <% let subrace = subraceObj[subrace_name] %>
+                    <div id="<%= subrace_name %>" class="subrace tabcontent <%= cur_race.race_name %>">
+                        <h3>Ability Score Improvements:</h3>
                         <ul>
                             <% subrace.abilityScoreBonus.forEach((ability) => { %>
                                 <% let cur_key = Object.keys(ability) %>
@@ -78,7 +81,7 @@
                             <% }) %>
                         </ul>
         
-                        <h4>Traits:</h4>
+                        <h3>Traits:</h3>
                         <ul>
                             <% subrace.traits.forEach((trait) => { %>
                                 <% let cur_key = Object.keys(trait) %>
@@ -104,14 +107,14 @@
                             <% }) %>
                         </ul>
                         <br><br>
-                        <h1 class="h1_button" onclick="selectRace('<%= cur_race._id %>', '<%= subrace_name %>')">Select Sub-Race</h1>
+                        <h1 class="h1_button" onclick="selectRace('<%= cur_race.race_name %>', '<%= subrace_name %>')">Select Sub-Race</h1>
+                        <br>
                     </div>
-                    <br>
                 <% }) %>
             </div>
         <% } else { %>
             <br><br>
-            <h1 class="h1_button" onclick="selectRace('<%= cur_race._id %>')">Select Race</h1>
+            <h1 class="h1_button" onclick="selectRace('<%= cur_race.race_name %>')">Select Race</h1>
         <% } %>
         
         <br><br>

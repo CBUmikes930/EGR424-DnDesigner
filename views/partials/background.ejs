@@ -1,0 +1,47 @@
+<div class="background">
+    <h1 onclick="toggleDropdown('class_<%= cur_background.background_name %>')"><%= cur_background.background_name %></h1>
+
+    <div id="class_<%= cur_background.background_name %>" class="hidden">
+        <hr><br>
+        <p><%= cur_background.description %></p>
+        <br><br>
+
+        <h2>Proficiencies:</h2>
+        <table>
+            <% cur_background.proficiencies.forEach((row) => { %>
+                <% let cur_key = Object.keys(row)[0] %>
+                <tr>
+                    <th><%= cur_key %></th>
+                    <td>
+                        <ul>
+                            <% row[cur_key].forEach((proficiency) => { %>
+                                <li><%= proficiency %></li>
+                            <% }) %>
+                        </ul>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+
+        <h2>Equipment:</h2>
+        <ul>
+            <% cur_background.equipment.forEach((equipmentItem) => { %>
+                <li>
+                    <%= equipmentItem %>
+                </li>
+            <% }) %>
+        </ul>
+
+        <h2>Feature:</h2>
+        <ul>
+            <% let cur_key = Object.keys(cur_background.Feature)[0] %>
+            <li id="<%= cur_key %>">
+                <strong><%= cur_key %>:</strong>
+                <%- cur_background.Feature[cur_key] %>
+            </li>
+        </ul>
+        <br><br>
+        <h1 class="h1_button" onclick="selectBackground('<%= cur_background.background_name %>')">Select Background</h1>
+        <br><br>
+    </div>
+</div>

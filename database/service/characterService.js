@@ -1,11 +1,13 @@
 const Character = require('../models/characterModel');
 const Race = require('../models/raceModel');
 const Class = require('../models/classModel');
+const Background = require('../models/backgroundModel');
 
 module.exports.createCharacter = async (content) => {
     try {
-        let character = new Character(...content);
-        return await character.save();
+        let character = new Character(content);
+        await character.save();
+        return character._id;
     } catch (error) {
         console.log("Something went wrong with createCharacter", error);
         throw new Error(error);
@@ -58,6 +60,17 @@ module.exports.getClasses = async (filter) => {
         return result;
     } catch (error) {
         console.log("Something went wrong with getClasses", error);
+        throw new Error(error);
+    }
+}
+
+module.exports.getBackgrounds = async (filter) => {
+    try {
+        let result = await Background.find(filter);
+
+        return result;
+    } catch (error) {
+        console.log("Something went wrong with getBackgrounds", error);
         throw new Error(error);
     }
 }
