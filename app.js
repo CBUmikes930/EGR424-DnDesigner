@@ -65,7 +65,7 @@ characterRouter.route('/create').get(async (req, res) => {
         let races = await characterService.getRaces();
         let classes = await characterService.getClasses();
         let backgrounds = await characterService.getBackgrounds();
-        res.render('edit_character', { title: 'New Character', user: user, races: races, classes: classes, backgrounds: backgrounds, static: ".." });
+        res.render('create_character', { title: 'New Character', user: user, races: races, classes: classes, backgrounds: backgrounds, static: ".." });
     } else {
         //Otherwise, if the user hasn't logged in, then send them to login page
         res.redirect('/user/login');
@@ -74,18 +74,22 @@ characterRouter.route('/create').get(async (req, res) => {
     var body = req.body;
     if (!req.session.user) {
         res.redirect('/user/login');
-    } else if (body.race == undefined) {
+        return res.redirect('/characters/create');
+    } else if (body.race == undefined || body.race == 'undefined' || body.race == '') {
         console.log("Error: No race parameter found");
-    } else if (body.subrace == undefined) {
-        console.log("Error: No subrace parameter found");
-    } else if (body.class == undefined) {
+        return res.redirect('/characters/create');
+    } else if (body.class == undefined || body.class == 'undefined' || body.class == '') {
         console.log("Error: No class parameter found");
-    } else if (body.subclass == undefined) {
+        return res.redirect('/characters/create');
+    } else if (body.subclass == undefined || body.subclass == 'undefined' || body.subclass == '') {
         console.log("Error: No subclass parameter found");
-    } else if (body.background == undefined) {
+        return res.redirect('/characters/create');
+    } else if (body.background == undefined || body.background == 'undefined' || body.background == '') {
         console.log("Error: No background parameter found");
-    } else if (body.name == undefined) {
+        return res.redirect('/characters/create');
+    } else if (body.name == undefined || body.name == 'undefined' || body.name == '') {
         console.log("Error: No name parameter found");
+        return res.redirect('/characters/create');
     }
 
     let details = { 
@@ -109,7 +113,11 @@ characterRouter.route('/:characterId').get(async (req, res) => {
     if (req.session.user) {
         user = req.session.user;
 
-        res.render('index', { title: 'Character Details', characterId: req.params["characterId"], user: user, static: ".." });
+        let character = await characterService.getCharacter(req.params["characterId"]);
+        let character_class = await characterService.getClasses({'class_name': character.class});
+        let skills = await characterService.getSkills();
+        let background = await characterService.getBackgrounds({'background_name': character.background});
+        res.render('character_details', { title: 'Character Details', character: character, character_class: character_class[0], background: background[0], skills: skills, user: user, static: ".." });
     } else {
         //Otherwise, if the user hasn't logged in, then send them to login page
         res.redirect('/user/login');

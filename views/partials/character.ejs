@@ -1,0 +1,7 @@
+<div class="character" id="<%= character.name %>">
+    <h2>Name: <%= character.name %></h2>
+    <hr>
+    <h3>Race: <%= character.race + ((character.subrace != "") ? " - " + character.subrace : "") %></h3>
+    <h3>Class: <%= character.class + " - " + character.subclass %></h3>
+    <a href="/characters/<%= character._id %>"><h3 class="h3_button">View Character</h3></a>
+</div>

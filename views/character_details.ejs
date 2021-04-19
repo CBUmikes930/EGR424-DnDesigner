@@ -1,0 +1,124 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body>
+    <%- include("./partials/nav.ejs") %>
+
+    <a href="/characters#<%= character.name %>">< Back to Characters List</a>
+
+    <form>
+        <div class="center-text">
+            <hr>
+            <h1 class="center"><%= character.name %></h1>
+            <hr>
+            <p><strong>Class: </strong><%= character.class + " - " + character.subclass %></p>
+            <p><strong>Race: </strong><%= character.race + ((character.subrace != "") ? " - " + character.subrace : "") %></p>
+            <p><strong>Background: </strong><%= character.background %></p>
+            <p><strong>Alignment: </strong>
+                <select id="alignment_1" name="alignment_1">
+                    <option value="Lawful">Lawful</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Chaotic">Chaotic</option>
+                </select>
+                <select id="alignment_2" name="alignment_2">
+                    <option value="Good">Good</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Evil">Evil</option>
+                </select>
+            </p>
+        </div>
+        <hr>
+        <div class="flex-parent">
+            <div class="flex-child">
+                <div class="flex-parent">
+                    <div class="flex-child">
+                        <ul class="ability_score_list">
+                            <% character.stats.forEach((stat) => { %>
+                                <%- include("./partials/character_sheet/abilityscore.ejs", {stat: stat, raw_stats: character.raw_stats}) %>
+                            <% }) %>
+                        </ul>
+                    </div>
+                    <div class="flex-child-2">
+                        <% let proficiency_bonus = character_class.table[character.level - 1]["Proficiency Bonus"] %>
+                        <p id="proficiency_bonus_holder"><strong>Proficiency Bonus: </strong><%= proficiency_bonus %></p>
+                        <br>
+                        <div class="checkbox-set">
+                            <% let saving_throws = character_class.proficiencies[3]["Saving Throws"] %>
+                            <div class="tooltip">
+                                <h4>Saving Throws</h4>
+                                <span class="tooltiptext">Each Saving Throw bonus is calculated by taking the modifier for that stat and if you have proficiency in the saving throw (box is checked), then your proficiency bonus is added to the ability modifier
+                                    <br><br>Whether you have proficiency in a particular saving throw is decided based on your class selection.
+                                </span>
+                            </div>
+                            <br>
+                            <% character.stats.forEach((stat) => { %>
+                                <input type="checkbox" id="<%= stat.name %>_saving_throw" name="<%= stat.name %>_saving_throw" value="true" <%= (saving_throws.includes(stat.name) ? "checked" : "") %> onclick="return false">
+                            
+                                <% let ability_score = stat.value %>
+                                <% let ability_modifier = Math.floor((ability_score - 10) / 2) %>
+                                <% let saving_modifier = (saving_throws.includes(stat.name) ? ability_modifier + parseInt(proficiency_bonus) : ability_modifier) %>
+    
+                                <span id="<%= stat.name %>_skill_bonus"><%= ((saving_modifier >= 0) ? "+" : "") + saving_modifier %></span>
+                                <label for="<%= stat.name %>_saving_throw"><%= stat.name %></label>
+                                <br>
+                            <% }) %>
+                        </div>
+                        <br>
+                        <div class="checkbox-set">
+                            <% let skills_title = Object.keys(character_class.proficiencies[4])[0] %>
+                            <% let available_skills = character_class.proficiencies[4][skills_title] %>
+                            <% let required_skills = background.proficiencies[0].Skills %>
+    
+                            <div class="tooltip">
+                                <h4 id="skills-title"><%= skills_title %></h4>
+                                <span class="tooltiptext">Skills determine what bonuses you can add when performing various checks based on that skill. Each skill bonus is calculated based off of that ability's score modifier and if you have proficiency in the skill (box is checked), then you also add your proficiency bonus to the modifier. Whenever you roll a d20 check for one of these skill checks, you add the number bonus to it.
+                                    <br><br>Key:<br>
+                                    <label class="skill-label">Available Choice (Determined by your choice of class)</label><br>
+                                    <label class="skill-label-disabled">Unavailable Skill</label><br>
+                                    <label class="skill-label-required">Required Skill (Determined by your background. Does not count toward your total skill count from your class)</label>
+                                </span>
+                            </div>
+                            <br>
+                            <% skills.forEach((skill) => { %>
+                                <input type="checkbox" class="skill<%= (required_skills.includes(skill.name)) ? "-required" : "" %>" id="<%= skill.name.replace(/ /g, "_") %>_skill" name="<%= skill.name.replace(/ /g, "_") %>_skill" value="true" 
+                                    onchange="skill_change('<%= skill.name.replace(/ /g, "_") %>_skill')" 
+                                    onclick="<%= (!available_skills.includes(skill.name) || required_skills.includes(skill.name) ? "return false" : "") %>" 
+                                    <%= (character.proficiencies.skills.includes(skill.name) || required_skills.includes(skill.name) ? "checked" : "") %>>
+    
+                                <% let ability_score = character.stats.find(stat => { return stat.name == skill.type}).value %>
+                                <% let ability_modifier = Math.floor((ability_score - 10) / 2) %>
+                                <% let skill_modifier = (character.proficiencies.skills.includes(skill.name) || required_skills.includes(skill.name) ? ability_modifier + parseInt(proficiency_bonus) : ability_modifier) %>
+    
+                                <label for="<%= skill.name.replace(/ /g, "_") %>_skill" class="skill-label<%= (required_skills.includes(skill.name) ? "-required " : "") %><%= (available_skills.includes(skill.name) ? "" : "-disabled") %>">
+                                    <span id="<%= skill.name.replace(/ /g, "_") %>_skill_bonus"><%= ((skill_modifier >= 0) ? "+" : "") + skill_modifier %></span>  <%= skill.name %> (<%= skill.type %>)
+                                </label>
+    
+                                <br>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+                <p class="center-text"><strong>Passive Wisdom (Perception): </strong><%= 10 + Math.floor((character.stats.find(stat => { return stat.name == "Wisdom" }).value - 10) / 2) %></p>
+                <br>
+                <div>
+                    <h4 class="center-text">Other Proficiencies & Languages</h4>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget quam gravida, aliquet magna vel, semper nibh. Morbi finibus, dolor sit amet fringilla placerat, magna erat lobortis diam, a fermentum tortor magna in justo. Aliquam erat volutpat. Quisque felis tortor, aliquam id metus pretium, pellentesque vehicula neque. Curabitur aliquet aliquam consequat. Mauris maximus augue turpis. Cras congue libero id neque gravida, et efficitur eros pretium. Quisque volutpat in mauris nec maximus. Donec ut posuere odio. Praesent justo ex, dignissim vel augue at, interdum sodales lorem. Nunc mollis, odio sit amet scelerisque vestibulum, neque risus dignissim nisi, sit amet ultrices velit sapien sit amet nunc. 
+                </div>
+            </div>
+            <div class="flex-child">
+                
+            </div>
+            <div class="flex-child">
+
+            </div>
+        </div>
+    </form>
+
+    <br><br><hr><br>
+    <p><%= character %></p>
+    <br><br>
+    <p><%= character_class %></p>
+
+    <%- include("./partials/footer.ejs") %>
+</body>
+</html>

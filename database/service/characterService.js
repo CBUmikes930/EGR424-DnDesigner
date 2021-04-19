@@ -2,6 +2,7 @@ const Character = require('../models/characterModel');
 const Race = require('../models/raceModel');
 const Class = require('../models/classModel');
 const Background = require('../models/backgroundModel');
+const Skill = require('../models/skillModel');
 
 module.exports.createCharacter = async (content) => {
     try {
@@ -71,6 +72,17 @@ module.exports.getBackgrounds = async (filter) => {
         return result;
     } catch (error) {
         console.log("Something went wrong with getBackgrounds", error);
+        throw new Error(error);
+    }
+}
+
+module.exports.getSkills = async (filter) => {
+    try {
+        let result = await Skill.find(filter);
+
+        return result;
+    } catch (error) {
+        console.log("Something went wrong with getSkills", error);
         throw new Error(error);
     }
 }

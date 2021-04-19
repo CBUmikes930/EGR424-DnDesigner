@@ -114,9 +114,13 @@ h3{
 #error {
     color: #ca0000;
 }
-#character_name_label {
+
+.input_label {
+    width: 100%;
+    margin: atuo;
     text-align: center;
 }
+
 #character_name {
     display: block;
     width: 80%;
@@ -127,6 +131,26 @@ h3{
     text-align: center;
     color: #ddd;
     background-image: linear-gradient(30deg, #555, #333, #555);
+}
+
+#confirmations input {
+    display: block;
+    width: 80%;
+    margin: auto;
+    padding: 10px 25px;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: #ddd;
+    background-image: linear-gradient(30deg, #400000, #600000, #400000);
+}
+
+#confirmations #form-errors {
+    display: block;
+    width: 100%;
+    margin: auto;
+    color: #ca0000;
+    text-align: center;
 }
 
 .race, .class, .background {
@@ -189,17 +213,18 @@ h3{
     font-size: 120%;
 }
 
-.race .h1_button, .class .h1_button, .background .h1_button {
+.race .h1_button, .class .h1_button, .background .h1_button, #confirmations .h1_button {
     width: 60%;
     margin: auto;
     padding: 15px;
-    background-color: #ca0000;
+    background-image: radial-gradient(#600000, #ca0000);
     border: 1px solid #ddd;
     border-radius: 10px;
+    text-align: center;
 }
 
-.race .h1_button:hover, .class .h1_button:hover, .background .h1_button:hover {
-    background-color: #e00000;
+.race .h1_button:hover, .class .h1_button:hover, .background .h1_button:hover, #confirmations .h1_button:hover {
+    background-image: radial-gradient(#ca0000, #e00000);
     text-decoration: underline;
 }
 
@@ -308,6 +333,111 @@ h3{
     flex: 1;
 }
 
+.flex-child-2 {
+    flex: 2;
+}
+
+.flex-child-3 {
+    flex: 3;
+}
+
 .hidden {
     display: none;
+}
+
+.character {
+    width: 80%;
+    margin: 50px auto;
+    padding: 0;
+    background-image: linear-gradient(30deg, #400000, #600000, #400000);
+    border: 2px solid #ddd;
+}
+
+.character h2 {
+    margin: 0;
+    padding: 5px 0;
+    text-align: center;
+}
+
+.character h3 {
+    margin: 0;
+    padding: 10px 30px;
+}
+
+.character a .h3_button {
+    width: 40%;
+    margin: 25px auto;
+    padding: 15px;
+    background-image: radial-gradient(#600000, #ca0000);
+    color: #ddd;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.character a .h3_button:hover {
+    background-image: radial-gradient(#ca0000, #e00000);
+    text-decoration: underline;
+}
+
+a {
+    color: #ddd;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #ca0000;
+    font-weight: bold;
+}
+
+#alignment_1, #alignment_2, #alignment_1 option, #alignment_2 option {
+    background-color: #222;
+    color: #ddd;
+}
+
+.ability_score_list {
+    list-style: none;
+}
+
+.ability_score_list li {
+    width: 80%;
+    margin: 10px auto;
+    padding: 5px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.ability_score_list li select {
+    width: 80%;
+    margin: 5px 0 5px 15px;
+    font-size: 150%;
+    background-color: #222;
+    color: #ddd;
+    text-align: center;
+}
+
+.checkbox-set {
+    border: 1px solid #ddd;
+    padding: 5px
+}
+
+.checkbox-set h4 {
+    margin: 0;
+    padding: 5px 0;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.skill-label-disabled {
+    color: #666;
+}
+
+.skill-label-required {
+    color: #4b4be7;
+}
+
+.center-text {
+    width: 100%;
+    margin: auto;
+    text-align: center;
 }

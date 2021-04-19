@@ -1,89 +1,63 @@
 console.log("script.js loaded");
 
-let race_selection, subrace_selection;
-let class_selection, subclass_selection;
-let background_selection;
+function stat_change(stat_name) {
+    // Get new stat value
+    let stat_val = $("#" + stat_name + "_score").val();
+    // Calculate modifier value
+    let stat_mod = Math.floor((stat_val - 10) / 2);
+    // Set the modifier value
+    $("#" + stat_name + "_modifier").html(((stat_mod >= 0) ? "+" : "") + stat_mod);
+}
 
-// Used to toggle the race dropdowns in the character creation page
-function toggleDropdown(id) {
-    target = document.getElementById(id);
+function skill_change(skill_name) {
+    adjustSkillModifier(skill_name);
 
-    if (target.classList.contains("hidden")) {
-        target.classList.remove("hidden");
-
-        activeTabs = document.getElementsByClassName("activeTab");
-        for (let i = 0; i < activeTabs.length; i++) {
-            activeTabs[i].click();
+    // Get the number of skills available 
+    let skills_title = $("#skills-title").html();
+    let num_skills = skills_title.substring(skills_title.length - 2, skills_title.length - 1);
+    
+    // Get a list of available skill choices
+    let skills = $(".skill");
+    let num_picked = 0;
+    for (let i = 0; i < skills.length; i++) {
+        if (skills[i].checked) {
+            num_picked++;
         }
+    }
+
+    // If we currently have picked more than allowed
+    if (num_picked > num_skills) {
+        // Uncheck the lowest skills
+        num_picked = 0;
+        for (let i = 0; i < skills.length; i++) {
+            if (skills[i].checked && ++num_picked > num_skills) {
+                skills[i].checked = false;
+                adjustSkillModifier(skills[i].name);
+            }
+        }
+        alert("You have reached the max number of skills!");
+    }
+}
+
+function adjustSkillModifier(skill_name) {
+    // Get the proficiency bonus from the text
+    let prof_bonus = $("#proficiency_bonus_holder").text();
+    prof_bonus = parseInt(prof_bonus.substr(prof_bonus.indexOf(":") + 3));
+
+    // Get the skill and skill bonus elements of the skill that was just changed
+    let targetSkill = $("#" + skill_name);
+    let targetSkillBonus = $("#" + skill_name + "_bonus");
+
+    // Pull the current modifier from the bonus element
+    let newModifier = parseInt(targetSkillBonus.text());
+
+    // If we just checked the skill, then add the bonus, otherwise, subtract the bonus
+    if (targetSkill.is(":checked")) {
+        newModifier += prof_bonus;
     } else {
-        target.classList.add("hidden");
-    }
-}
-
-function showTab(evt, tabGroup, tabName) {
-    let tabcontent = document.getElementsByClassName("tabcontent " + tabGroup);
-    for (let i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
+        newModifier -= prof_bonus;
     }
 
-    let tablinks = document.getElementsByClassName("tablinks " + tabGroup);
-    for (let i = 0; i < tablinks.length; i++) {
-        tablinks[i].classList.remove("activeTab");
-    }
-
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.classList.add("activeTab");
-}
-
-function selectRace(race_name, subrace_name) {
-    let name = document.getElementById("character_name").value;
-
-    race_selection = race_name;
-    subrace_selection = subrace_name;
-
-    document.getElementById("races").classList.add("hidden");
-    document.getElementById("classes").classList.remove("hidden");
-
-    document.getElementById("character_name").value = name;
-    window.scrollTo(0, 0);
-}
-
-function selectClass(class_name, subclass_name) {
-    let name = document.getElementById("character_name").value;
-
-    class_selection = class_name;
-    subclass_selection = subclass_name;
-
-    document.getElementById("classes").classList.add("hidden");
-    document.getElementById("backgrounds").classList.remove("hidden");
-
-    document.getElementById("character_name").value = name;
-    window.scrollTo(0, 0);
-}
-
-function selectBackground(background_name) {
-    let name = document.getElementById("character_name").value;
-
-    background_selection = background_name;
-
-    document.getElementById("backgrounds").classList.add("hidden");
-
-    document.getElementById("character_name").value = name;
-    window.scrollTo(0, 0);
-
-    document.getElementById("raceInput").value = race_selection;
-    document.getElementById("subraceInput").value = subrace_selection;
-    document.getElementById("classInput").value = class_selection;
-    document.getElementById("subclassInput").value = subclass_selection;
-    document.getElementById("backgroundInput").value = background_selection;
-
-    document.getElementById("confirmations").classList.remove("hidden");
-}
-
-function loadTooltip(link) {
-    return "Tooltip: " + link;
-}
-
-function test() {
-    console.log(race_selection + "\n" + subrace_selection);
+    // Reset the bonus
+    targetSkillBonus.text(((newModifier >= 0) ? "+" : "") + newModifier);
 }

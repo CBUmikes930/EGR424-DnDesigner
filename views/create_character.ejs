@@ -1,21 +1,25 @@
 <html lang="en">
 <%- include("./partials/head.ejs") %>
+<script src="<%= static %>/createCharacterHelper.js"></script>
 
 <body>
     <%- include("./partials/nav.ejs") %>
 
-    <h1 id="character_name_label">Enter Character Name:</h1>
-    <form method="POST">
+    <h1 class="input_label">Enter Character Name:</h1>
+    <form method="POST" id="create_character_form">
         <input type="text" name="name" id="character_name">
     
         <div id="confirmations" class="hidden">
             <br><br>
-            <label for="race">Race:</label><input name="race" value="" id="raceInput"><br><br>
-            <label for="subrace">Subrace:</label><input name="subrace" value="" id="subraceInput"><br><br>
-            <label for="class">Class:</label><input name="class" value="" id="classInput"><br><br>
-            <label for="subclass">Subclass:</label><input name="subclass" value="" id="subclassInput"><br><br>
-            <label for="background">Background:</label><input name="background" value="" id="backgroundInput">
-            <input type="submit" value="Create Character">
+            <h1 class="input_label">Race:</h1><input name="race" value="" id="raceInput"><br><br>
+            <h1 class="input_label">Subrace:</h1><input name="subrace" value="" id="subraceInput"><br><br>
+            <h1 class="input_label">Class:</h1><input name="class" value="" id="classInput"><br><br>
+            <h1 class="input_label">Subclass:</h1><input name="subclass" value="" id="subclassInput"><br><br>
+            <h1 class="input_label">Background:</h1><input name="background" value="" id="backgroundInput">
+            <br><br><br><br>
+            <h1 class="h1_button" onclick="submitForm()">Create Character</h1>
+            <br><br>
+            <span id="form-errors"></span>
         </div>
     </form>
     <br><br><hr><br>

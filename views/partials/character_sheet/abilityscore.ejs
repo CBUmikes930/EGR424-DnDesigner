@@ -1,0 +1,15 @@
+<li>
+    <strong><%= stat.name %></strong><br>
+    <select id="<%= stat.name %>_ability_score" 
+        class="ability_score"
+        name="<%= stat.name %>_ability_score" 
+        onchange="stat_change('<%= stat.name %>_ability')">
+
+        <% raw_stats.forEach((raw_stat) => { %>
+            <option value="<%= raw_stat %>" <%= (raw_stat == stat.value) ? "selected" : "" %>><%= raw_stat %></option>
+        <% }) %>
+
+    </select>
+    <% let stat_modifier = Math.floor((stat.value - 10) / 2) %>
+    <p id="<%= stat.name %>_ability_modifier"><%= ((stat_modifier >= 0) ? "+" : "") + stat_modifier %></p>
+</li>
