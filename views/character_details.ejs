@@ -10,6 +10,7 @@
         <div class="center-text">
             <hr>
             <h1 class="center"><%= character.name %></h1>
+            <h3>Level <%= character.level %></h3>
             <hr>
             <p><strong>Class: </strong><%= character.class + " - " + character.subclass %></p>
             <p><strong>Race: </strong><%= character.race + ((character.subrace != "") ? " - " + character.subrace : "") %></p>
@@ -106,10 +107,33 @@
                 </div>
             </div>
             <div class="flex-child">
-                
+                <div class="center-text">
+                    <p><strong>Armor Class: </strong><%= character.armorClass %></p>
+                    <% let initiative_bonus = Math.floor((character.stats.find(stat => { return stat.name == "Dexterity" }).value - 10) / 2) %>
+                    <p><strong>Initiative Bonus: </strong><%= ((initiative_bonus >= 0) ? "+" : "") + initiative_bonus %></p>
+                    <p><strong>Speed: </strong><%= character.speed %></p>
+                    <br>
+                    <p><strong>Hit Point Maximum: </strong><%= character.hitPoints %></p>
+                    <p><strong>Hit Dice: </strong><%= character.level %>d<%= character_class.hit_dice %></p>
+                </div>
+                <br><hr>
+                <div>
+                    <h4 class="center-text">Equipment</h4>
+                    <br>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget quam gravida, aliquet magna vel, semper nibh. Morbi finibus, dolor sit amet fringilla placerat, magna erat lobortis diam, a fermentum tortor magna in justo. Aliquam erat volutpat. Quisque felis tortor, aliquam id metus pretium, pellentesque vehicula neque. Curabitur aliquet aliquam consequat. Mauris maximus augue turpis. Cras congue libero id neque gravida, et efficitur eros pretium. Quisque volutpat in mauris nec maximus. Donec ut posuere odio. Praesent justo ex, dignissim vel augue at, interdum sodales lorem. Nunc mollis, odio sit amet scelerisque vestibulum, neque risus dignissim nisi, sit amet ultrices velit sapien sit amet nunc.
+
+                    Phasellus hendrerit erat quis augue aliquet vulputate. Cras blandit pharetra turpis et posuere. Etiam tincidunt, orci id condimentum vulputate, mauris lectus condimentum dui, sit amet efficitur felis tellus ut nunc. Duis et odio sed magna laoreet aliquam. Vivamus eget tellus felis. Proin vel felis sit amet purus tristique sollicitudin. Ut sagittis lacus in nunc maximus, vitae tempor dui elementum. Nunc vulputate dolor eu hendrerit pellentesque. Nulla nunc arcu, pretium quis placerat vel, placerat sed lectus. Mauris nec turpis sed leo cursus ultrices. Ut diam nunc, pretium sit amet semper vitae, volutpat quis risus. Sed nibh metus, ultrices sed ex sit amet, laoreet aliquam nulla. Pellentesque mattis ipsum lacus. Integer placerat interdum eros, ac rutrum enim ultrices quis. Vivamus suscipit augue sit amet magna tincidunt laoreet. 
+                </div>
             </div>
             <div class="flex-child">
+                <h4 class="center-text">Features & Traits</h4>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget quam gravida, aliquet magna vel, semper nibh. Morbi finibus, dolor sit amet fringilla placerat, magna erat lobortis diam, a fermentum tortor magna in justo. Aliquam erat volutpat. Quisque felis tortor, aliquam id metus pretium, pellentesque vehicula neque. Curabitur aliquet aliquam consequat. Mauris maximus augue turpis. Cras congue libero id neque gravida, et efficitur eros pretium. Quisque volutpat in mauris nec maximus. Donec ut posuere odio. Praesent justo ex, dignissim vel augue at, interdum sodales lorem. Nunc mollis, odio sit amet scelerisque vestibulum, neque risus dignissim nisi, sit amet ultrices velit sapien sit amet nunc.
 
+                Phasellus hendrerit erat quis augue aliquet vulputate. Cras blandit pharetra turpis et posuere. Etiam tincidunt, orci id condimentum vulputate, mauris lectus condimentum dui, sit amet efficitur felis tellus ut nunc. Duis et odio sed magna laoreet aliquam. Vivamus eget tellus felis. Proin vel felis sit amet purus tristique sollicitudin. Ut sagittis lacus in nunc maximus, vitae tempor dui elementum. Nunc vulputate dolor eu hendrerit pellentesque. Nulla nunc arcu, pretium quis placerat vel, placerat sed lectus. Mauris nec turpis sed leo cursus ultrices. Ut diam nunc, pretium sit amet semper vitae, volutpat quis risus. Sed nibh metus, ultrices sed ex sit amet, laoreet aliquam nulla. Pellentesque mattis ipsum lacus. Integer placerat interdum eros, ac rutrum enim ultrices quis. Vivamus suscipit augue sit amet magna tincidunt laoreet. 
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget quam gravida, aliquet magna vel, semper nibh. Morbi finibus, dolor sit amet fringilla placerat, magna erat lobortis diam, a fermentum tortor magna in justo. Aliquam erat volutpat. Quisque felis tortor, aliquam id metus pretium, pellentesque vehicula neque. Curabitur aliquet aliquam consequat. Mauris maximus augue turpis. Cras congue libero id neque gravida, et efficitur eros pretium. Quisque volutpat in mauris nec maximus. Donec ut posuere odio. Praesent justo ex, dignissim vel augue at, interdum sodales lorem. Nunc mollis, odio sit amet scelerisque vestibulum, neque risus dignissim nisi, sit amet ultrices velit sapien sit amet nunc.
+
+                Phasellus hendrerit erat quis augue aliquet vulputate. Cras blandit pharetra turpis et posuere. Etiam tincidunt, orci id condimentum vulputate, mauris lectus condimentum dui, sit amet efficitur felis tellus ut nunc. Duis et odio sed magna laoreet aliquam. Vivamus eget tellus felis. Proin vel felis sit amet purus tristique sollicitudin. Ut sagittis lacus in nunc maximus, vitae tempor dui elementum. Nunc vulputate dolor eu hendrerit pellentesque. Nulla nunc arcu, pretium quis placerat vel, placerat sed lectus. Mauris nec turpis sed leo cursus ultrices. Ut diam nunc, pretium sit amet semper vitae, volutpat quis risus. Sed nibh metus, ultrices sed ex sit amet, laoreet aliquam nulla. Pellentesque mattis ipsum lacus. Integer placerat interdum eros, ac rutrum enim ultrices quis. Vivamus suscipit augue sit amet magna tincidunt laoreet. 
+                
             </div>
         </div>
     </form>

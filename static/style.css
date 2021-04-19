@@ -341,6 +341,10 @@ h3{
     flex: 3;
 }
 
+.flex-child, .flex-child-2, .flex-child-3 {
+    padding: 3px;
+}
+
 .hidden {
     display: none;
 }
