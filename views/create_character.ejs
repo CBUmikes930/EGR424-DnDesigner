@@ -28,21 +28,21 @@
     <div id="races">
         <h1>Step 1: Choose a Race</h1>
         <% races.forEach((cur_race) => { %>
-            <%- include("./partials/race.ejs", {cur_race: cur_race}) %>
+            <%- include("./partials/create_character/race.ejs", {cur_race: cur_race}) %>
         <% }) %>
     </div>
 
     <div id="classes" class="hidden">
         <h1>Step 2: Choose a Class</h1>
         <% classes.forEach((cur_class) => { %>
-            <%- include("./partials/class.ejs", {cur_class: cur_class}) %>
+            <%- include("./partials/create_character/class.ejs", {cur_class: cur_class}) %>
         <% }) %>
     </div>
 
     <div id="backgrounds" class="hidden">
         <h1>Step 3: Choose a Background</h1>
         <% backgrounds.forEach((cur_background) => { %>
-            <%- include("./partials/background.ejs", {cur_background: cur_background}) %>
+            <%- include("./partials/create_character/background.ejs", {cur_background: cur_background}) %>
         <% }) %>
     </div>
 
@@ -76,7 +76,7 @@
                 <br>
                 <div id="rolls_container" class="hidden">
                     <% for (let i = 0; i < 6; i++) { %>
-                        <%- include("./partials/rolls.ejs", {number: i}) %>
+                        <%- include("./partials/create_character/rolls.ejs", {number: i}) %>
                     <% } %>
                     <br>
                 </div>

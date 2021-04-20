@@ -158,6 +158,23 @@ characterRouter.route('/:characterId').get(async (req, res) => {
 }).post(async (req, res) => {
     var body = req.body;
     console.log(body);
+
+    /*
+    body example:
+{
+  alignment_1: 'Lawful',
+  alignment_2: 'Good',
+  Strength_ability_score: '13',
+  Dexterity_ability_score: '13',
+  Constitution_ability_score: '13',
+  Intelligence_ability_score: '13',
+  Wisdom_ability_score: '13',
+  Charisma_ability_score: '13',
+  Arcana_skill: 'true',
+  Athletics_skill: 'true',
+  Deception_skill: 'true'
+}
+    */
 });
 
 // User Routes
