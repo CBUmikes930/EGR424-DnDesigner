@@ -185,7 +185,7 @@ h3{
     padding-left: 75px;
 }
 
-.race ul, .class ul, .background ul {
+.race ul, .class ul, .background ul, .Stats ul {
     padding-left: 75px;
 }
 
@@ -213,7 +213,8 @@ h3{
     font-size: 120%;
 }
 
-.race .h1_button, .class .h1_button, .background .h1_button, #confirmations .h1_button {
+.race .h1_button, .class .h1_button, .background .h1_button, #confirmations .h1_button,
+    .Stats .h1_button {
     width: 60%;
     margin: auto;
     padding: 15px;
@@ -223,7 +224,8 @@ h3{
     text-align: center;
 }
 
-.race .h1_button:hover, .class .h1_button:hover, .background .h1_button:hover, #confirmations .h1_button:hover {
+.race .h1_button:hover, .class .h1_button:hover, .background .h1_button:hover, #confirmations .h1_button:hover,
+    .Stats .h1_button {
     background-image: radial-gradient(#ca0000, #e00000);
     text-decoration: underline;
 }
@@ -297,6 +299,35 @@ h3{
 
 .class table td a:hover {
     color: #aaa;
+}
+
+#rolls_container {
+    width: 80%;
+    margin: auto;
+    padding: 25px;
+    background-image: linear-gradient(30deg, #333, #555);
+    border: 1px solid #ddd;
+    border-radius: 20px;
+}
+
+#rolls_container .rolls {
+    margin: 50px 0;
+}
+
+#rolls_container .rolls div img {
+    width: 80%;
+}
+
+#rolls_container .rolls div .disabled {
+    width: 80%;
+    opacity: 0.3;
+}
+
+#rolls_container .rolls h1 {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .tooltip {
@@ -391,7 +422,6 @@ a {
 
 a:hover {
     color: #ca0000;
-    font-weight: bold;
 }
 
 #alignment_1, #alignment_2, #alignment_1 option, #alignment_2 option {

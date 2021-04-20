@@ -1,0 +1,10 @@
+<div id="roll_<%= number %>" class="rolls flex-parent">
+    <% for (let i = 0; i < 4; i++) { %>
+        <div class="flex-child">
+            <img id="roll_<%= number %>_<%= i %>" class="dice_imgs roll_<%= number %>" src="<%= static %>/imgs/dice_1.png">
+        </div>
+    <% } %>
+    <div class="flex-child">
+        <h1 class="roll_total hidden" id="roll_<%= number %>_total"></h1>
+    </div>
+</div>

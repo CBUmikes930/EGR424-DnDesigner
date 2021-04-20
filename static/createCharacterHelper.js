@@ -9,6 +9,7 @@ function refreshPopup(event) {
 let race_selection, subrace_selection;
 let class_selection, subclass_selection;
 let background_selection;
+let stats;
 
 // Used to toggle the dropdown headers in the character creation page
 function toggleDropdown(id) {
@@ -60,19 +61,33 @@ function selectClass(class_name, subclass_name) {
     window.scrollTo(0, 0);
 }
 
-// Used to move from Step 3 to confirmation on the character creation page
+// Used to move from Step 3 to Step 4 on the character creation page
 function selectBackground(background_name) {
     background_selection = background_name;
 
+    $("#backgrounds").addClass("hidden");
+    $("#stats").removeClass("hidden");
+    
+    window.scrollTo(0, 0);
+}
+
+// Used to move from step 4 to the confirmation on the character creation page
+function selectStats(type) {
+    if (type == "default")
+        stats = [ 15, 14, 13, 12, 10, 8 ];
+
     $("#raceInput").val(race_selection);
     $("#subraceInput").val(subrace_selection);
-    if (subrace_selection == undefined || subrace_selection == 'undefined' || subrace_selection == '')
+    if (subrace_selection == undefined || subrace_selection == 'undefined' || subrace_selection == '') {
         $("#subraceInput").css("display", "none");
+        $("#subrace_label").css("display", "none");
+    }
     $("#classInput").val(class_selection);
     $("#subclassInput").val(subclass_selection);
     $("#backgroundInput").val(background_selection);
+    $("#statsInput").val(stats);
 
-    $("#backgrounds").addClass("hidden");
+    $("#stats").addClass("hidden");
     $("#confirmations").removeClass("hidden");
     
     window.scrollTo(0, 0);
@@ -91,6 +106,8 @@ function submitForm() {
         errors += "You must select a subclass<br>";
     if (validateData("backgroundInput"))
         errors += "You must select a background<br>";
+    if (validateData("statsInput"))
+        errors += "You must select your stats<br>";
 
     if (errors == "") {
         // Remove the refresh popup so we don't have to confirm
@@ -106,4 +123,81 @@ function submitForm() {
 function validateData(id) {
     let value = $("#" + id).val();
     return (value == undefined || value == 'undefined' || value == '')
+}
+
+function rollStats() {
+    // Hide the button, show the dice
+    $("#rolls_container").removeClass("hidden");
+    $("#roll_dice_button").addClass("hidden");
+
+    // Set the animation to run every 10 milliseconds
+    id = setInterval(randomizeImage, 10);
+    // Stop the animation after 2 seconds
+    setTimeout(stopRandomizer, 2000);
+
+    // Rolling Animation
+    function randomizeImage() {
+        // Get a list of dice images and for each one
+        let dice = $(".dice_imgs");
+        for (let i = 0; i < dice.length; i++) {
+            // Get a random number between 1-6
+            let roll = Math.floor(Math.random() * 6) + 1
+
+            // Get hte image link
+            let img_link = dice[i].src;
+            // Change the image to reflect the roll
+            img_link = img_link.substring(0, img_link.length - 5) + roll + ".png";
+            // Set the image
+            dice[i].src = img_link;
+        }
+    }
+
+    // After we are done rolling
+    function stopRandomizer() {
+        // Stop the interval (animation)
+        clearInterval(id);
+
+        stats = new Array(6);
+        // For each stat (6 times)
+        for (let i = 0; i < 6; i++) {
+            let total = 0;
+            let lowest = 7;
+            let lowest_img;
+
+            // For each die to roll (4 of them)
+            for (let j = 0; j < 4; j++) {
+                // Roll a d6
+                let cur_roll = Math.floor(Math.random() * 6) + 1;
+
+                // Get the current image
+                let cur_dice = $("#roll_" + i + "_" + j);
+                // Get the image path
+                let img_link = cur_dice.attr("src");
+                // Change the image to reflect the roll
+                img_link = img_link.substring(0, img_link.length - 5) + cur_roll + ".png";
+                // Set the image
+                cur_dice.attr("src", img_link);
+
+                // Add to the total
+                total += cur_roll;
+                // Update lowest
+                if (cur_roll < lowest) {
+                    lowest = cur_roll;
+                    lowest_img = cur_dice;
+                }
+            }
+
+            // Subtract the lowest from the total
+            total -= lowest;
+            $("#roll_" + i + "_total").text("= " + total);
+            stats[i] = total;
+
+            // Grey out lowest die
+            lowest_img.addClass("disabled");
+        }
+
+        // Show the total fields
+        $(".roll_total").removeClass("hidden");
+        $("#use_rolled_stats_button").removeClass("hidden");
+    }
 }

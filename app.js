@@ -92,13 +92,46 @@ characterRouter.route('/create').get(async (req, res) => {
         return res.redirect('/characters/create');
     }
 
+    let raw_stats = body.stats.split(",");
+
     let details = { 
         name: body.name,
         race: body.race,
         subrace: body.subrace,
         class: body.class,
         subclass: body.subclass,
-        background: body.background
+        background: body.background,
+        level: 1,
+        raw_stats: raw_stats,
+        proficiencies: {
+            skills: []
+        },
+        stats: [
+            {
+                name: "Strength",
+                value: "0"
+            },
+            {
+                name: "Dexterity",
+                value: "0"
+            },
+            {
+                name: "Constitution",
+                value: "0"
+            },
+            {
+                name: "Intelligence",
+                value: "0"
+            },
+            {
+                name: "Wisdom",
+                value: "0"
+            },
+            {
+                name: "Charisma",
+                value: "0"
+            }
+        ]
     };
 
     console.log(details);

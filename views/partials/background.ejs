@@ -1,7 +1,7 @@
 <div class="background">
-    <h1 onclick="toggleDropdown('class_<%= cur_background.background_name %>')"><%= cur_background.background_name %></h1>
+    <h1 onclick="toggleDropdown('class_<%= cur_background.background_name.replace(/ /g, "_") %>')"><%= cur_background.background_name %></h1>
 
-    <div id="class_<%= cur_background.background_name %>" class="hidden">
+    <div id="class_<%= cur_background.background_name.replace(/ /g, "_") %>" class="hidden">
         <hr><br>
         <p><%= cur_background.description %></p>
         <br><br>

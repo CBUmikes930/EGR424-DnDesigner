@@ -12,10 +12,11 @@
         <div id="confirmations" class="hidden">
             <br><br>
             <h1 class="input_label">Race:</h1><input name="race" value="" id="raceInput"><br><br>
-            <h1 class="input_label">Subrace:</h1><input name="subrace" value="" id="subraceInput"><br><br>
+            <h1 id="subrace_label" class="input_label">Subrace:</h1><input name="subrace" value="" id="subraceInput"><br><br>
             <h1 class="input_label">Class:</h1><input name="class" value="" id="classInput"><br><br>
             <h1 class="input_label">Subclass:</h1><input name="subclass" value="" id="subclassInput"><br><br>
-            <h1 class="input_label">Background:</h1><input name="background" value="" id="backgroundInput">
+            <h1 class="input_label">Background:</h1><input name="background" value="" id="backgroundInput"><br><br>
+            <h1 class="input_label">Stats:</h1><input name="stats" value="" id="statsInput">
             <br><br><br><br>
             <h1 class="h1_button" onclick="submitForm()">Create Character</h1>
             <br><br>
@@ -43,6 +44,47 @@
         <% backgrounds.forEach((cur_background) => { %>
             <%- include("./partials/background.ejs", {cur_background: cur_background}) %>
         <% }) %>
+    </div>
+
+    <div id="stats" class="hidden">
+        <h1>Step 4: Choose your Stats</h1>
+        <div class="tabcontainer">
+            <div class="tab">
+                <button class="tablinks Stats" onclick="showTab(event, 'Stats', 'Default')">Default</button>
+                <button class="tablinks Stats" onclick="showTab(event, 'Stats', 'Roll')">Roll for Stats</button>
+            </div>
+            <div id="Default" class="tabcontent Stats">
+                <h3>Default Stats:</h3>
+                <p>When you choose to use default stats, you get to assign your stat numbers from the list of following stat numbers. Each number can be used for only one stat.</p>
+                <ul>
+                    <li>15</li>
+                    <li>14</li>
+                    <li>13</li>
+                    <li>12</li>
+                    <li>10</li>
+                    <li>8</li>
+                </ul>
+                
+                <h1 class="h1_button" onclick="selectStats('default')">Use Stats</h1>
+                <br>
+            </div>
+            <div id="Roll" class="tabcontent Stats">
+                <h3>Roll for Stats:</h3>
+                <p>When you choose to roll for stats, you roll 4d6's and use the sum of the highest 3 to make a stat number. You do this six times to make the list of numbers that you can use for your stats.</p>
+                <br>
+                <h1 class="h1_button" id="roll_dice_button" onclick="rollStats()">Roll Stats:</h1>
+                <br>
+                <div id="rolls_container" class="hidden">
+                    <% for (let i = 0; i < 6; i++) { %>
+                        <%- include("./partials/rolls.ejs", {number: i}) %>
+                    <% } %>
+                    <br>
+                </div>
+                <br>
+                <h1 id="use_rolled_stats_button" class="h1_button hidden" onclick="selectStats('rolled')">Use Stats</h1>
+                <br>
+            </div>
+        </div>
     </div>
 
     <%- include("./partials/footer.ejs") %>
