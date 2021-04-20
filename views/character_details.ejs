@@ -6,7 +6,7 @@
 
     <a href="/characters#<%= character.name %>">< Back to Characters List</a>
 
-    <form>
+    <form method="POST">
         <div class="center-text">
             <hr>
             <h1 class="center"><%= character.name %></h1>
@@ -53,7 +53,7 @@
                             </div>
                             <br>
                             <% character.stats.forEach((stat) => { %>
-                                <input type="checkbox" id="<%= stat.name %>_saving_throw" name="<%= stat.name %>_saving_throw" value="true" <%= (saving_throws.includes(stat.name) ? "checked" : "") %> onclick="return false">
+                                <input type="checkbox" id="<%= stat.name %>_saving_throw" <%= (saving_throws.includes(stat.name) ? "checked" : "") %> onclick="return false">
                             
                                 <% let ability_score = stat.value %>
                                 <% let ability_modifier = Math.floor((ability_score - 10) / 2) %>
@@ -81,7 +81,7 @@
                             </div>
                             <br>
                             <% skills.forEach((skill) => { %>
-                                <input type="checkbox" class="skill<%= (required_skills.includes(skill.name)) ? "-required" : "" %>" id="<%= skill.name.replace(/ /g, "_") %>_skill" name="<%= skill.name.replace(/ /g, "_") %>_skill" value="true" 
+                                <input type="checkbox" class="skill<%= (required_skills.includes(skill.name)) ? "-required" : "" %>" id="<%= skill.name.replace(/ /g, "_") %>_skill" name="<%= (required_skills.includes(skill.name) ? "" : skill.name.replace(/ /g, "_") + "_skill") %>" value="true" 
                                     onchange="skill_change('<%= skill.name.replace(/ /g, "_") %>_skill')" 
                                     onclick="<%= (!available_skills.includes(skill.name) || required_skills.includes(skill.name) ? "return false" : "") %>" 
                                     <%= (character.proficiencies.skills.includes(skill.name) || required_skills.includes(skill.name) ? "checked" : "") %>>
@@ -136,6 +136,7 @@
                 
             </div>
         </div>
+        <input type="submit" value="save changes">
     </form>
 
     <br><br><hr><br>

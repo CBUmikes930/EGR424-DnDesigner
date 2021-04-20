@@ -155,6 +155,9 @@ characterRouter.route('/:characterId').get(async (req, res) => {
         //Otherwise, if the user hasn't logged in, then send them to login page
         res.redirect('/user/login');
     }
+}).post(async (req, res) => {
+    var body = req.body;
+    console.log(body);
 });
 
 // User Routes
