@@ -53,7 +53,7 @@ characterRouter.route('/').get(async (req, res) => {
         res.render('character_list', { title: 'My Characters', user: user, characters: characters, static: "." });
     } else {
         //Otherwise, if the user hasn't logged in, then send them to login page
-        res.redirect('/user/login');
+        res.redirect('/user/login?next=/characters');
     }
 });
 
@@ -68,7 +68,7 @@ characterRouter.route('/create').get(async (req, res) => {
         res.render('create_character', { title: 'New Character', user: user, races: races, classes: classes, backgrounds: backgrounds, static: ".." });
     } else {
         //Otherwise, if the user hasn't logged in, then send them to login page
-        res.redirect('/user/login');
+        res.redirect('/user/login?next=/characters/create');
     }
 }).post(async (req, res) => {
     var body = req.body;
@@ -148,33 +148,50 @@ characterRouter.route('/:characterId').get(async (req, res) => {
 
         let character = await characterService.getCharacter(req.params["characterId"]);
         let character_class = await characterService.getClasses({'class_name': character.class});
+        let character_race = await characterService.getRaces({'race_name': character.race});
+        let character_subrace;
+        if (character.subrace != "") {
+            character_subrace = character_race[0].subraces.filter(subrace => Object.keys(subrace).includes(character.subrace))[0];
+        }
         let skills = await characterService.getSkills();
         let background = await characterService.getBackgrounds({'background_name': character.background});
-        res.render('character_details', { title: 'Character Details', character: character, character_class: character_class[0], background: background[0], skills: skills, user: user, static: ".." });
+
+        res.render('character_details', { title: 'Character Details', character: character, character_class: character_class[0], character_race: character_race[0], character_subrace: character_subrace, background: background[0], skills: skills, user: user, static: ".." });
     } else {
         //Otherwise, if the user hasn't logged in, then send them to login page
-        res.redirect('/user/login');
+        res.redirect('/user/login?next=/characters/' + req.params["characterId"]);
     }
 }).post(async (req, res) => {
     var body = req.body;
-    console.log(body);
 
-    /*
-    body example:
-{
-  alignment_1: 'Lawful',
-  alignment_2: 'Good',
-  Strength_ability_score: '13',
-  Dexterity_ability_score: '13',
-  Constitution_ability_score: '13',
-  Intelligence_ability_score: '13',
-  Wisdom_ability_score: '13',
-  Charisma_ability_score: '13',
-  Arcana_skill: 'true',
-  Athletics_skill: 'true',
-  Deception_skill: 'true'
-}
-    */
+    let alignment = body.alignment_1 + " " + body.alignment_2;
+    let stats = [
+        { name: "Strength", value: body.Strength_ability_score },
+        { name: "Dexterity", value: body.Dexterity_ability_score },
+        { name: "Constitution", value: body.Constitution_ability_score },
+        { name: "Intelligence", value: body.Intelligence_ability_score },
+        { name: "Wisdom", value: body.Wisdom_ability_score },
+        { name: "Charisma", value: body.Charisma_ability_score }
+    ];
+    
+    let skills = [];
+    Object.keys(body).forEach((key) => {
+        if (key.substring(key.length - 6) == "_skill") {
+            let skill_name = key.substring(0, key.length - 6);
+            skill_name = skill_name.replace(/_/g, " ");
+            skills.push(skill_name);
+        }
+    });
+    let proficiencies = { skills: skills };
+
+    let character = await characterService.getCharacter(req.params["characterId"]);
+    character.alignment = alignment;
+    character.stats = stats;
+    character.proficiencies = proficiencies;
+    
+    await character.save();
+
+    res.redirect(req.params["characterId"]);
 });
 
 // User Routes
@@ -185,8 +202,12 @@ userRouter.route('/login').get((req, res) => {
     if (req.session.user) {
         user = req.session.user;
 
-        //Take them to home page
-        res.redirect('/');
+        if (req.query.next != null) {
+            res.redirect(req.query.next);
+        } else {
+            //Take them to home page
+            res.redirect('/');
+        }
     } else {
         //Otherwise, if the user hasn't logged in, generate the login page
         user = null;
@@ -202,7 +223,13 @@ userRouter.route('/login').get((req, res) => {
     } else {
         user = body.username;
         req.session.user = body.username;
-        res.redirect('/');
+
+        if (req.query.next != null) {
+            res.redirect(req.query.next);
+        } else {
+            //Take them to home page
+            res.redirect('/');
+        }
     }
 });
 

@@ -92,6 +92,11 @@ h3{
     float: right;
 }
 
+#homescreen_image {
+    width: 80%;
+    margin: auto;
+}
+
 #login {
     width: 40%;
     margin: auto;
@@ -214,7 +219,7 @@ h3{
 }
 
 .race .h1_button, .class .h1_button, .background .h1_button, #confirmations .h1_button,
-    .Stats .h1_button {
+    .Stats .h1_button, .h1_button {
     width: 60%;
     margin: auto;
     padding: 15px;
@@ -225,7 +230,7 @@ h3{
 }
 
 .race .h1_button:hover, .class .h1_button:hover, .background .h1_button:hover, #confirmations .h1_button:hover,
-    .Stats .h1_button {
+    .Stats .h1_button:hover, .h1_button:hover {
     background-image: radial-gradient(#ca0000, #e00000);
     text-decoration: underline;
 }
@@ -441,13 +446,26 @@ a:hover {
     text-align: center;
 }
 
-.ability_score_list li select {
+.ability_score_list li .abilityScore {
+    display: inline-block;
+    width: 100%;
+}
+
+.ability_score_list li .abilityScore select {
     width: 80%;
-    margin: 5px 0 5px 15px;
+    margin: 5px 0;
     font-size: 150%;
     background-color: #222;
     color: #ddd;
     text-align: center;
+}
+
+.ability_score_list li .abilityScore .tooltip {
+    width: 20%;
+    margin: 5px 0;
+    font-size: 150%;
+    float: right;
+    vertical-align: middle;
 }
 
 .checkbox-set {
@@ -474,4 +492,20 @@ a:hover {
     width: 100%;
     margin: auto;
     text-align: center;
+}
+
+#equipment, #proficiencies, #features-and-traits {
+    border: 1px solid #ddd;
+}
+
+#equipment ul, #proficiencies ul {
+    padding-left: 30px;
+}
+
+#equipment ul li a {
+    padding-left: 10px;
+}
+
+#features-and-traits ul {
+    padding-left: 20px;
 }
