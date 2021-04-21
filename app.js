@@ -101,6 +101,7 @@ characterRouter.route('/create').get(async (req, res) => {
         class: body.class,
         subclass: body.subclass,
         background: body.background,
+        alignment: "Lawful Good",
         level: 1,
         raw_stats: raw_stats,
         proficiencies: {
